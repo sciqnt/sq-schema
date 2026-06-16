@@ -5,7 +5,7 @@ sq-schema — the canonical cross-asset contract for sciqnt (point-in-time-corre
 > **Published from the monorepo.** During the component-world transition this repo
 > is *generated* from [`sciqnt/sciqnt`](https://github.com/sciqnt/sciqnt)
 > (`core/sq_schema`) by its publishing bot. The monorepo is the source of truth
-> until the contract has fully graduated; **edit there**, not here. Role: `contract-hub`.
+> until the component has fully graduated; **edit there**, not here. Role: `contract-hub`.
 
 ## Install
 
@@ -13,14 +13,9 @@ sq-schema — the canonical cross-asset contract for sciqnt (point-in-time-corre
 pip install sciqnt-schema
 ```
 
-## What it is
+## The contract artifact
 
-The thin, stable **contract** every sciqnt connector translates *into* and every
-consumer reads *from* — never broker JSON. Money is `Decimal`; every fact is
-bitemporal (`valid_at` + `observed_at`). This package computes no P/L — adapters
-fill the fields, consumers read them.
-
-The contract is also published as a **language-agnostic JSON-Schema artifact**,
+This package is also published as a **language-agnostic JSON-Schema artifact**,
 [`contract.schema.json`](src/sq_schema/contract.schema.json), so a connector in
 any language — or a reviewing agent — can read and diff it. Regenerate it from the
 models with `python -m sq_schema.json_schema --write`; CI fails if it drifts.

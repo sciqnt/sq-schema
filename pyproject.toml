@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sciqnt-schema"
-dynamic = ["version"]                 # single source: sq_schema.__version__
+version = "0.1.0"                  # stamped by the publishing bot (transition)
 description = "sq-schema — the canonical cross-asset contract for sciqnt (point-in-time-correct schema + conformance + JSON-Schema artifact)."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -23,9 +23,6 @@ Source = "https://github.com/sciqnt/sq-schema"
 [tool.setuptools]
 package-dir = { "" = "src" }
 packages = ["sq_schema"]
-
-[tool.setuptools.dynamic]
-version = { attr = "sq_schema.__version__" }
 
 [tool.setuptools.package-data]
 sq_schema = ["contract.schema.json"]

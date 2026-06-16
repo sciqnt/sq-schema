@@ -3,6 +3,6 @@ name: sciqnt-schema
 import: sq_schema
 repo: sciqnt/sq-schema
 role: contract-hub
-contract: self        # this IS the contract; other components pin a version of it
+contract: self        # this IS the contract
 published_from: sciqnt/sciqnt   # virtual-monorepo source of truth (transition)
 license: MIT
