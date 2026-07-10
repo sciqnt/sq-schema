@@ -63,3 +63,17 @@ class FxRateProvider(Protocol):
         to_currency: str,
         asof: date | None = None,
     ) -> FxRate | None: ...
+
+
+@runtime_checkable
+class SupportsCurrencies(Protocol):
+    """Optional companion capability an FX provider MAY implement: enumerate
+    the currencies it can convert into (its declared coverage). Kept off the
+    core `FxRateProvider` contract so a minimal provider that only answers
+    `get_rate` still conforms; `sq_fx.currencies()` opts in via
+    `isinstance(provider, SupportsCurrencies)` and skips providers that don't.
+
+    Must be answerable WITHOUT a network round-trip (it feeds settings pickers
+    and capability dumps) — return a static/declared set, not a live fetch."""
+
+    def currencies(self) -> "set[str] | frozenset[str]": ...

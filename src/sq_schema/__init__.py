@@ -81,7 +81,7 @@ from .instrument import Instrument
 from .position import Position
 from .cash import CashBalance
 from .closed_lot import ClosedLot
-from .fx import FxRate, FxRateProvider
+from .fx import FxRate, FxRateProvider, SupportsCurrencies
 from .news import NewsItem, NewsProvider
 from .price import Price, PriceProvider
 from .transaction import Transaction
@@ -99,6 +99,7 @@ __all__ = [
     "ClosedLot",
     "FxRate",
     "FxRateProvider",
+    "SupportsCurrencies",
     "NewsItem",
     "NewsProvider",
     "Price",
