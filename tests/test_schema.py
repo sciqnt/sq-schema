@@ -337,6 +337,26 @@ class TestFxRateProvider(unittest.TestCase):
         self.assertNotIsInstance(NotAProvider(), FxRateProvider)
 
 
+class TestSupportsCurrencies(unittest.TestCase):
+    """Optional capability protocol — a provider opts in by implementing
+    `currencies()`; `sq_fx.currencies()` discovers it via isinstance."""
+
+    def test_provider_with_currencies_is_recognised(self):
+        from sq_schema import SupportsCurrencies
+
+        class WithCoverage:
+            def get_rate(self, f, t, asof=None): return None
+            def currencies(self): return {"EUR", "USD"}
+        self.assertIsInstance(WithCoverage(), SupportsCurrencies)
+
+    def test_minimal_provider_is_not_a_currencies_provider(self):
+        from sq_schema import SupportsCurrencies
+
+        class RateOnly:
+            def get_rate(self, f, t, asof=None): return None
+        self.assertNotIsInstance(RateOnly(), SupportsCurrencies)
+
+
 # ── Conformance harness ────────────────────────────────────────────────────
 def _snapshot_with(positions=None, cash_balances=None):
     return PortfolioSnapshot(

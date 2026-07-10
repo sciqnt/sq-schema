@@ -8,6 +8,7 @@ they implement.
 `rate` semantics: 1 unit of `from_currency` = `rate` units of `to_currency`.
 So `FxRate(from='USD', to='EUR', rate=0.92)` means $1 = €0.92.
 """
+from collections.abc import Set as AbstractSet
 from datetime import date
 from decimal import Decimal
 from typing import Protocol, runtime_checkable
@@ -63,3 +64,21 @@ class FxRateProvider(Protocol):
         to_currency: str,
         asof: date | None = None,
     ) -> FxRate | None: ...
+
+
+@runtime_checkable
+class SupportsCurrencies(Protocol):
+    """Optional companion capability an FX provider MAY implement: enumerate
+    the currencies it can convert into (its declared coverage). Kept off the
+    core `FxRateProvider` contract so a minimal provider that only answers
+    `get_rate` still conforms; `sq_fx.currencies()` opts in via
+    `isinstance(provider, SupportsCurrencies)` and skips providers that don't.
+
+    Must be answerable WITHOUT a network round-trip (it feeds settings pickers
+    and capability dumps) — return a static/declared set, not a live fetch.
+
+    Directionality: the codes a portfolio can be CONVERTED INTO / displayed in
+    (a flat set, base currency included) — the same convention `sq_fx` and the
+    connectors follow."""
+
+    def currencies(self) -> AbstractSet[str]: ...
