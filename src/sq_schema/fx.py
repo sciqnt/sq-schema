@@ -8,6 +8,7 @@ they implement.
 `rate` semantics: 1 unit of `from_currency` = `rate` units of `to_currency`.
 So `FxRate(from='USD', to='EUR', rate=0.92)` means $1 = €0.92.
 """
+from collections.abc import Set as AbstractSet
 from datetime import date
 from decimal import Decimal
 from typing import Protocol, runtime_checkable
@@ -74,6 +75,10 @@ class SupportsCurrencies(Protocol):
     `isinstance(provider, SupportsCurrencies)` and skips providers that don't.
 
     Must be answerable WITHOUT a network round-trip (it feeds settings pickers
-    and capability dumps) — return a static/declared set, not a live fetch."""
+    and capability dumps) — return a static/declared set, not a live fetch.
 
-    def currencies(self) -> "set[str] | frozenset[str]": ...
+    Directionality: the codes a portfolio can be CONVERTED INTO / displayed in
+    (a flat set, base currency included) — the same convention `sq_fx` and the
+    connectors follow."""
+
+    def currencies(self) -> AbstractSet[str]: ...
